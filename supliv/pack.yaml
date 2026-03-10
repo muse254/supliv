@@ -1,0 +1,22 @@
+pack_id: supliv
+version: 0.1.0
+kind: application
+publisher: muse254
+components:
+- id: supliv-stub
+  version: 0.1.0
+  world: greentic:provider/schema-core@1.0.0
+  supports: []
+  profiles:
+    default: stateless
+    supported:
+    - stateless
+  capabilities:
+    wasi:
+      random: false
+      clocks: false
+    host: {}
+  wasm: components/stub.wasm
+dependencies: []
+flows: []
+assets: []
