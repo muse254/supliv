@@ -16,6 +16,10 @@ permissions:
 jobs:
   gtpack-publish:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
     steps:
       - uses: actions/checkout@v4
 
@@ -39,7 +43,6 @@ jobs:
           version: "1.2.0"
 
       - name: Build supliv gtpack
-        working-directory: package-publish
         run: |
           set -euo pipefail
           bash scripts/build_gtpack.sh | tee /tmp/build_gtpack.log
@@ -52,7 +55,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish supliv gtpack
-        working-directory: package-publish
         env:
           OWNER: muse254
           PACKAGE_NAME: supliv

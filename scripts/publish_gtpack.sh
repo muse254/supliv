@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST_DIR="${ROOT_DIR}/dist"
 PACK_PATH="${DIST_DIR}/supliv.gtpack"
+PACK_PATH_REL="dist/supliv.gtpack"
 REGISTRY="${REGISTRY:-ghcr.io}"
 OWNER="${OWNER:-muse254}"
 PACKAGE_NAME="${PACKAGE_NAME:-supliv}"
@@ -25,10 +26,13 @@ latest_ref="${REGISTRY}/${OWNER}/${PACKAGE_NAME}:latest"
 
 for ref in "${version_ref}" "${latest_ref}"; do
   echo "Publishing $(basename "${PACK_PATH}") -> ${ref}"
-  oras push "${ref}" \
-    --artifact-type application/vnd.greentic.gtpack.v1 \
-    --annotation "org.opencontainers.image.title=$(basename "${PACK_PATH}")" \
-    --annotation "org.opencontainers.image.revision=${REVISION}" \
-    --annotation "org.opencontainers.image.source=${SOURCE_ANNOTATION}" \
-    "${PACK_PATH}:application/vnd.greentic.gtpack.layer.v1+tar"
+  (
+    cd "${ROOT_DIR}"
+    oras push "${ref}" \
+      --artifact-type application/vnd.greentic.gtpack.v1 \
+      --annotation "org.opencontainers.image.title=$(basename "${PACK_PATH}")" \
+      --annotation "org.opencontainers.image.revision=${REVISION}" \
+      --annotation "org.opencontainers.image.source=${SOURCE_ANNOTATION}" \
+      "${PACK_PATH_REL}:application/vnd.greentic.gtpack.layer.v1+tar"
+  )
 done
