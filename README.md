@@ -45,7 +45,7 @@ If you want the publish step to authenticate against GHCR during a local run,
 provide a token as a GitHub secret:
 
 ```bash
-act push -e .github/act/push-main.json -j gtpack-publish -s GITHUB_TOKEN=YOUR_TOKEN
+act push -e .github/act/push-main.json -j gtpack-publish -s ACTIONS_TOKEN=YOUR_TOKEN
 ```
 
 If `act` fails with `The runs.using key in action.yml must be one of ... got node20`,
